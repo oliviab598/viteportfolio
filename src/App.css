@@ -13,3 +13,14 @@ body,
 * {
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: "Dotemp 8bit";
+  src: url("/Dotemp-8bit.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dotemp-text {
+  font-family: "Dotemp 8bit", sans-serif;
+}
