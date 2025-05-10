@@ -10,11 +10,11 @@ const HoverImagePopup: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const images = [
-    "image1.jpeg",
-    "image2.jpeg",
-    "image3.jpeg",
-    "image4.jpeg",
-    "image5.jpeg",
+    "image1.png",
+    "image2.png",
+    "image3.png",
+    "image4.png",
+    "image5.png",
   ];
 
   const spawnImage = () => {
@@ -28,13 +28,12 @@ const HoverImagePopup: React.FC = () => {
 
     img.style.position = "absolute";
     img.style.width = "4em";
-    img.style.height = "6em";
     img.style.objectFit = "cover";
     img.style.pointerEvents = "none";
     img.style.opacity = "0";
 
-    const offsetX = Math.random() * 4 + 4; // 4–8em to the right
-    const offsetY = Math.random() * 2 - 0.7; // -0.7–1.3em
+    const offsetX = Math.random() * 4 + 4;
+    const offsetY = Math.random() * 2 - 0.7;
     img.style.left = `${offsetX}em`;
     img.style.top = `${offsetY}em`;
 
@@ -82,7 +81,6 @@ const HoverImagePopup: React.FC = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Animate button
     gsap.fromTo(
       ".play-button",
       { scale: 1 },
@@ -101,27 +99,52 @@ const HoverImagePopup: React.FC = () => {
   return (
     <div
       style={{
+        position: "relative",
+        height: "100vh",
+        width: "100vw",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
-        width: "100vw",
-        backgroundColor: "#111",
         margin: 0,
         padding: 0,
+        backgroundColor: "#111",
       }}
     >
+      {/* Background video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.1,
+          zIndex: 0,
+        }}
+      >
+        <source src="/graphic.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Hover text */}
       <div
         className="dotemp-text"
         onMouseEnter={startCycling}
         onMouseLeave={stopCycling}
         style={{
-          color: "white",
+          color: "#F6F7F2",
           fontSize: "2rem",
           position: "relative",
           textAlign: "center",
           cursor: "default",
+          zIndex: 2,
         }}
       >
         olivia brown
@@ -131,14 +154,13 @@ const HoverImagePopup: React.FC = () => {
             position: "absolute",
             bottom: 0,
             left: 0,
-            zIndex: 1000,
+            zIndex: 3,
             width: 0,
             height: 0,
           }}
         />
       </div>
 
-      {/* Play button below the text */}
       <button
         onClick={toggleAudio}
         className="play-button"
@@ -146,7 +168,7 @@ const HoverImagePopup: React.FC = () => {
           position: "absolute",
           bottom: "3em",
           backgroundColor: "transparent",
-          color: "white",
+          color: "F6F7F2",
           border: "none",
           borderRadius: "50%",
           width: "3.5em",
@@ -157,6 +179,7 @@ const HoverImagePopup: React.FC = () => {
           justifyContent: "center",
           cursor: "pointer",
           outline: "none",
+          zIndex: 2,
         }}
       >
         {isPlaying ? "⏸" : "▶"}
