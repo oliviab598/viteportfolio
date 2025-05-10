@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import "./App.css";
 
@@ -7,7 +7,7 @@ const HoverImagePopup: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const indexRef = useRef(0);
   const spawnLoop = useRef<gsap.core.Tween | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
 
   const images = [
     "image1.png",
@@ -77,24 +77,23 @@ const HoverImagePopup: React.FC = () => {
     }
   };
 
-  const toggleAudio = () => {
+  const handleEnter = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    gsap.fromTo(
-      ".play-button",
-      { scale: 1 },
-      { scale: 1.1, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.out" }
-    );
-
-    if (audio.paused) {
-      audio.play().catch((err) => console.warn("Autoplay blocked:", err));
-      setIsPlaying(true);
-    } else {
-      audio.pause();
-      setIsPlaying(false);
-    }
+    audio.play().catch((err) => console.warn("Autoplay blocked:", err));
+    setHasEntered(true);
   };
+
+  useEffect(() => {
+    if (hasEntered) {
+      gsap.fromTo(
+        ".main-content",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: "power2.out" }
+      );
+    }
+  }, [hasEntered]);
 
   return (
     <div
@@ -103,87 +102,74 @@ const HoverImagePopup: React.FC = () => {
         height: "100vh",
         width: "100vw",
         overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
         margin: 0,
         padding: 0,
         backgroundColor: "#111",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        fontFamily: "inherit",
       }}
     >
-      {/* Background video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: 0.1,
-          zIndex: 0,
-        }}
-      >
-        <source src="/graphic.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Hover text */}
-      <div
-        className="dotemp-text"
-        onMouseEnter={startCycling}
-        onMouseLeave={stopCycling}
-        style={{
-          color: "#F6F7F2",
-          fontSize: "2rem",
-          position: "relative",
-          textAlign: "center",
-          cursor: "default",
-          zIndex: 2,
-        }}
-      >
-        olivia brown
-        <div
-          ref={containerRef}
+      {!hasEntered ? (
+        <button
+          onClick={handleEnter}
+          className="dotemp-text"
           style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            zIndex: 3,
-            width: 0,
-            height: 0,
+            background: "none",
+            border: "none",
+            color: "#F6F7F2",
+            fontSize: "1.5rem",
+            cursor: "pointer",
+            marginTop: "1em",
+            opacity: 0.7,
+            outline: "none",
+            WebkitTapHighlightColor: "transparent",
+            transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
-        />
-      </div>
-
-      <button
-        onClick={toggleAudio}
-        className="play-button"
-        style={{
-          position: "absolute",
-          bottom: "3em",
-          backgroundColor: "transparent",
-          color: "F6F7F2",
-          border: "none",
-          borderRadius: "50%",
-          width: "3.5em",
-          height: "3.5em",
-          fontSize: "2.5em",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          outline: "none",
-          zIndex: 2,
-        }}
-      >
-        {isPlaying ? "⏸" : "▶"}
-      </button>
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "1";
+            e.currentTarget.style.transform = "scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "0.7";
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+          onFocus={(e) => e.currentTarget.blur()}
+        >
+          enter
+        </button>
+      ) : (
+        <div className="main-content" style={{ opacity: 0 }}>
+          <div
+            className="dotemp-text"
+            onMouseEnter={startCycling}
+            onMouseLeave={stopCycling}
+            style={{
+              color: "#F6F7F2",
+              fontSize: "2rem",
+              position: "relative",
+              textAlign: "center",
+              cursor: "default",
+              zIndex: 2,
+            }}
+          >
+            olivia brown
+            <div
+              ref={containerRef}
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                zIndex: 3,
+                width: 0,
+                height: 0,
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       <audio ref={audioRef} src="/anguish.wav" preload="auto" loop />
     </div>
