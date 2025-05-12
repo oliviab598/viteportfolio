@@ -1,81 +1,34 @@
 import React, { useRef, useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
 import "./App.css";
 
 const HoverImagePopup: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const indexRef = useRef(0);
-  const spawnLoop = useRef<gsap.core.Tween | null>(null);
   const [hasEntered, setHasEntered] = useState(false);
+  const [bannerIndex, setBannerIndex] = useState(0);
 
-  const images = [
-    "image1.png",
-    "image2.png",
-    "image3.png",
-    "image4.png",
-    "image5.png",
+  const images = ["image1.png", "image2.png", "image3.png"];
+
+  const discography = [
+    {
+      image: "manrmir.JPEG",
+      link: "https://on.soundcloud.com/bPAJivvEjFCu34bH9",
+    },
+    {
+      image: "touchyou2.png",
+      link: "https://open.spotify.com/album/3ugcwHvC4EdlAU4iZTjULz?si=0hu4TQUkRV2hNIjjoFitoQ",
+    },
+    {
+      image: "0010.png",
+      link: "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ?si=XMnnQGMKSM2Kr_nwuaZygA",
+    },
+    {
+      image: "cerulean3.png",
+      link: "https://open.spotify.com/album/4gv3c9loXssU0VkuJI9Zxk?si=E-VnwqpgT6yKWigJzfYqJg",
+    },
   ];
-
-  const spawnImage = () => {
-    if (!containerRef.current) return;
-
-    const img = document.createElement("img");
-    const index = indexRef.current;
-    img.src = `/${images[index]}`;
-    img.alt = `img${index + 1}`;
-    indexRef.current = (index + 1) % images.length;
-
-    img.style.position = "absolute";
-    img.style.width = "4em";
-    img.style.objectFit = "cover";
-    img.style.pointerEvents = "none";
-    img.style.opacity = "0";
-
-    const offsetX = Math.random() * 4 + 4;
-    const offsetY = Math.random() * 2 - 0.7;
-    img.style.left = `${offsetX}em`;
-    img.style.top = `${offsetY}em`;
-
-    containerRef.current.appendChild(img);
-
-    gsap.fromTo(
-      img,
-      { opacity: 0, scale: 0.85 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.4,
-        ease: "power2.out",
-        onComplete: () => {
-          gsap.to(img, {
-            opacity: 0,
-            duration: 0.6,
-            delay: 0.6,
-            ease: "power2.in",
-            onComplete: () => {
-              containerRef.current?.removeChild(img);
-            },
-          });
-        },
-      }
-    );
-  };
-
-  const startCycling = () => {
-    const loop = () => {
-      spawnImage();
-      spawnLoop.current = gsap.delayedCall(0.25, loop);
-    };
-    loop();
-  };
-
-  const stopCycling = () => {
-    if (spawnLoop.current) {
-      spawnLoop.current.kill();
-      spawnLoop.current = null;
-    }
-  };
 
   const handleEnter = () => {
     const audio = audioRef.current;
@@ -84,6 +37,23 @@ const HoverImagePopup: React.FC = () => {
     audio.play().catch((err) => console.warn("Autoplay blocked:", err));
     setHasEntered(true);
   };
+
+  const [isMuted, setIsMuted] = useState(false);
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.muted = !audio.muted;
+    setIsMuted(audio.muted);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBannerIndex((prev) => (prev + 1) % images.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (hasEntered) {
@@ -95,83 +65,290 @@ const HoverImagePopup: React.FC = () => {
     }
   }, [hasEntered]);
 
+  useEffect(() => {
+    const cursor = document.createElement("div");
+    cursor.className = "custom-cursor";
+    document.body.appendChild(cursor);
+
+    const moveCursor = (e: MouseEvent) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    };
+
+    document.addEventListener("mousemove", moveCursor);
+    return () => {
+      document.removeEventListener("mousemove", moveCursor);
+      document.body.removeChild(cursor);
+    };
+  }, []);
+
   return (
     <div
       style={{
         position: "relative",
-        height: "100vh",
         width: "100vw",
-        overflow: "hidden",
+        minHeight: "100vh",
+        overflowX: "hidden",
         margin: 0,
         padding: 0,
         backgroundColor: "#111",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
         fontFamily: "inherit",
+        color: "#F6F7F2",
       }}
     >
       {!hasEntered ? (
-        <button
-          onClick={handleEnter}
-          className="dotemp-text"
+        <div
           style={{
-            background: "none",
-            border: "none",
-            color: "#F6F7F2",
-            fontSize: "1.5rem",
-            cursor: "pointer",
-            marginTop: "1em",
-            opacity: 0.7,
-            outline: "none",
-            WebkitTapHighlightColor: "transparent",
-            transition: "opacity 0.3s ease, transform 0.3s ease",
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = "1";
-            e.currentTarget.style.transform = "scale(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = "0.7";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-          onFocus={(e) => e.currentTarget.blur()}
         >
-          enter
-        </button>
-      ) : (
-        <div className="main-content" style={{ opacity: 0 }}>
-          <div
+          <button
+            onClick={handleEnter}
             className="dotemp-text"
-            onMouseEnter={startCycling}
-            onMouseLeave={stopCycling}
             style={{
+              background: "none",
+              border: "none",
               color: "#F6F7F2",
-              fontSize: "2rem",
-              position: "relative",
-              textAlign: "center",
-              cursor: "default",
-              zIndex: 2,
+              fontSize: "1.5rem",
+              cursor: "pointer",
+              opacity: 0.7,
+              outline: "none",
+              WebkitTapHighlightColor: "transparent",
+              transition: "opacity 0.3s ease, transform 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "1";
+              e.currentTarget.style.transform = "scale(1.03)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "0.7";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+            onFocus={(e) => e.currentTarget.blur()}
+          >
+            enter
+          </button>
+        </div>
+      ) : (
+        <>
+          <nav
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginBottom: "3em",
             }}
           >
-            olivia brown
             <div
-              ref={containerRef}
               style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                zIndex: 3,
-                width: 0,
-                height: 0,
+                position: "relative",
+                width: "4em",
+                height: "8em",
+                marginTop: "3em",
+                marginBottom: "1em",
               }}
-            />
-          </div>
-        </div>
-      )}
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={bannerIndex}
+                  src={`/${images[bannerIndex]}`}
+                  alt={`cycling-banner-${bannerIndex + 1}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.6 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "5em",
+                    height: "8em",
+                    objectFit: "cover",
+                  }}
+                />
+              </AnimatePresence>
+            </div>
 
-      <audio ref={audioRef} src="/anguish.wav" preload="auto" loop />
+            <p
+              className="dotemp-text"
+              style={{
+                fontSize: "0.8rem",
+                letterSpacing: "0.2em",
+                margin: "0.6em 0",
+                opacity: 0.7,
+              }}
+            >
+              oliviagbrown.com
+            </p>
+            <div
+              className="dotemp-text"
+              style={{
+                display: "flex",
+                gap: "50em",
+                fontSize: "0.8rem",
+                letterSpacing: "0.25em",
+              }}
+            >
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#B1B2AE" }}
+              >
+                listen
+              </a>
+              <a style={{ color: "#B1B2AE" }}>say hi</a>
+            </div>
+          </nav>
+
+          <div
+            className="main-content"
+            style={{
+              height: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              position: "relative",
+              marginTop: "-12em",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                zIndex: 2,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="/logo.png"
+                alt="Logo"
+                style={{
+                  maxWidth: "300px",
+                  width: "50%",
+                  height: "auto",
+                  cursor: "default",
+                  opacity: 0.7,
+                }}
+              />
+
+              <div
+                ref={containerRef}
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  zIndex: 3,
+                  width: 0,
+                  height: 0,
+                }}
+              />
+            </div>
+            <div>
+              <p
+                className="dotemp-text"
+                style={{
+                  position: "relative",
+                  fontSize: "0.5rem",
+                  letterSpacing: "0.2em",
+                  marginTop: "1em",
+                  opacity: 0.7,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  textAlign: "center",
+                }}
+              >
+                {/* ( &gt; _ &lt; )&#39;&#39; .ᐟ */}
+                {/* <br /> */}
+                i'm olivia brown
+                <br />
+                an electronic musician and artist
+              </p>
+            </div>
+          </div>
+
+          <section
+            className="discography-section"
+            style={{
+              padding: "10em 14em",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              rowGap: "10em",
+              justifyItems: "center",
+              alignItems: "center",
+              backgroundColor: "#111",
+            }}
+          >
+            {discography.map((item, idx) => (
+              <a
+                key={idx}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "block",
+                  transition: "transform 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.03)";
+                  const img = e.currentTarget.querySelector("img");
+                  if (img) img.style.opacity = "0.8";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1.0)";
+                  const img = e.currentTarget.querySelector("img");
+                  if (img) img.style.opacity = "0.6";
+                }}
+              >
+                <img
+                  src={`/${item.image}`}
+                  alt={`album-${idx + 1}`}
+                  style={{
+                    width: "80%",
+                    maxWidth: "300px",
+                    opacity: 0.6,
+                  }}
+                />
+              </a>
+            ))}
+          </section>
+        </>
+      )}
+      <audio ref={audioRef} src="/0010.wav" preload="auto" loop />
+      <button
+        onClick={toggleMute}
+        style={{
+          position: "fixed",
+          bottom: "2em",
+          left: "2em",
+          zIndex: 1000,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: 0.7,
+        }}
+        aria-label="Toggle Music"
+      >
+        <img
+          src={isMuted ? "/speaker-slash.png" : "/speaker.png"}
+          alt={isMuted ? "Muted" : "Playing"}
+          style={{
+            width: "2em",
+            height: "2em",
+            opacity: 0.7,
+          }}
+        />
+      </button>
     </div>
   );
 };
