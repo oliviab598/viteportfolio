@@ -149,7 +149,6 @@ const HoverImagePopup: React.FC = () => {
                 width: "4em",
                 height: "8em",
                 marginTop: "3em",
-                marginBottom: "1em",
               }}
             >
               <AnimatePresence mode="wait">
@@ -165,8 +164,8 @@ const HoverImagePopup: React.FC = () => {
                     position: "absolute",
                     top: 0,
                     left: 0,
-                    width: "5em",
-                    height: "8em",
+                    width: "4em",
+                    height: "7em",
                     objectFit: "cover",
                   }}
                 />
@@ -177,7 +176,7 @@ const HoverImagePopup: React.FC = () => {
               className="dotemp-text"
               style={{
                 fontSize: "0.8rem",
-                letterSpacing: "0.2em",
+                letterSpacing: "0.4em",
                 margin: "0.6em 0",
                 opacity: 0.7,
               }}
@@ -190,7 +189,7 @@ const HoverImagePopup: React.FC = () => {
                 display: "flex",
                 gap: "50em",
                 fontSize: "0.8rem",
-                letterSpacing: "0.25em",
+                letterSpacing: "0.4em",
               }}
             >
               <a
@@ -255,8 +254,8 @@ const HoverImagePopup: React.FC = () => {
                 style={{
                   position: "relative",
                   fontSize: "0.5rem",
-                  letterSpacing: "0.2em",
-                  marginTop: "1em",
+                  letterSpacing: "0.5em",
+                  marginTop: "2em",
                   opacity: 0.7,
                   justifyContent: "center",
                   alignItems: "center",
@@ -264,11 +263,9 @@ const HoverImagePopup: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                {/* ( &gt; _ &lt; )&#39;&#39; .ᐟ */}
-                {/* <br /> */}
                 i'm olivia brown
-                <br />
-                an electronic musician and artist
+                <br />i like music and computers &lt;3
+                <br />( &gt; _ &lt; )&#39;&#39; .ᐟ
               </p>
             </div>
           </div>
@@ -321,34 +318,47 @@ const HoverImagePopup: React.FC = () => {
         </>
       )}
       <audio ref={audioRef} src="/0010.wav" preload="auto" loop />
-      <button
-        onClick={toggleMute}
-        style={{
-          position: "fixed",
-          bottom: "2em",
-          left: "2em",
-          zIndex: 1000,
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: 0.7,
-        }}
-        aria-label="Toggle Music"
-      >
-        <img
-          src={isMuted ? "/speaker-slash.png" : "/speaker.png"}
-          alt={isMuted ? "Muted" : "Playing"}
+      {hasEntered && (
+        <button
+          onClick={toggleMute}
           style={{
-            width: "2em",
-            height: "2em",
+            position: "fixed",
+            bottom: "2em",
+            left: "2em",
+            zIndex: 1000,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             opacity: 0.7,
+            transition: "transform 0.3s ease, opacity 0.3s ease",
           }}
-        />
-      </button>
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.1)";
+            e.currentTarget.style.opacity = "1";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.opacity = "0.7";
+          }}
+          onFocus={(e) => e.currentTarget.blur()}
+          aria-label="Toggle Music"
+        >
+          <img
+            src={isMuted ? "/speaker-slash.png" : "/speaker.png"}
+            alt={isMuted ? "Muted" : "Playing"}
+            style={{
+              width: "1.5em",
+              height: "1.5em",
+              opacity: 0.7,
+              pointerEvents: "none",
+            }}
+          />
+        </button>
+      )}
     </div>
   );
 };
