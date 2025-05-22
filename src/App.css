@@ -56,3 +56,54 @@ body,
     opacity: 0.5;
   }
 }
+.marquee-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.marquee-container {
+  width: 50vw;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-scroller {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: scroll-loop 120s linear infinite;
+}
+
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-text {
+  display: inline-block;
+  padding-right: 2em;
+  font-size: 0.5rem;
+  letter-spacing: 0.5em;
+  font-family: "Dotemp 8bit", sans-serif;
+  color: #91928f;
+}
+
+.marquee-label {
+  background-color: #91928f;
+  color: #111;
+  font-family: "Dotemp 8bit", sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.9em;
+  padding: 0.1em 0.3em;
+  white-space: nowrap;
+}

@@ -12,6 +12,9 @@ const HoverImagePopup: React.FC = () => {
 
   const images = ["image1.png", "image2.png", "image3.png"];
 
+  const lyric =
+    "the mirror's crystal clear · smudges a figment of my mind · swallowed up inside your absence · i am the product of oversight · ";
+
   const discography = [
     {
       image: "manrmir.JPEG",
@@ -35,11 +38,19 @@ const HoverImagePopup: React.FC = () => {
 
   const navigate = useNavigate();
 
+  // const handleEnter = () => {
+  //   const audio = audioRef.current;
+  //   if (!audio) return;
+
+  //   audio.play().catch((err) => console.warn("Autoplay blocked:", err));
+  //   setHasEntered(true);
+  // };
   const handleEnter = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     audio.play().catch((err) => console.warn("Autoplay blocked:", err));
+    localStorage.setItem("hasEntered", "true");
     setHasEntered(true);
   };
 
@@ -69,6 +80,17 @@ const HoverImagePopup: React.FC = () => {
       );
     }
   }, [hasEntered]);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("hasEntered") === "true";
+    setHasEntered(hasVisited);
+
+    if (hasVisited && audioRef.current) {
+      audioRef.current
+        .play()
+        .catch((err) => console.warn("Autoplay blocked or failed:", err));
+    }
+  }, []);
 
   return (
     <div
@@ -134,8 +156,8 @@ const HoverImagePopup: React.FC = () => {
             <div
               style={{
                 position: "relative",
-                width: "4em",
-                height: "8em",
+                width: "clamp(3em, 10vw, 4em)",
+                height: "clamp(5em, 18vh, 7em)",
                 marginTop: "3em",
               }}
             >
@@ -286,7 +308,7 @@ const HoverImagePopup: React.FC = () => {
                 className="dotemp-text"
                 style={{
                   position: "relative",
-                  fontSize: "0.5rem",
+                  fontSize: "clamp(0.1rem, 1vw, 0.5rem)",
                   letterSpacing: "0.5em",
                   marginTop: "2em",
                   opacity: 0.7,
@@ -298,7 +320,36 @@ const HoverImagePopup: React.FC = () => {
               >
                 i'm olivia brown
                 <br />i like music and computers &lt;3
+                <br />
+                this site compiles my favorite works at the moment
+                <br />
+                get to know me ...
+                <br />
               </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  marginTop: "-0.8em",
+                }}
+              >
+                <div className="marquee-label">fav lyrics: </div>
+
+                <div
+                  className="marquee-container"
+                  style={{
+                    width: "clamp(200px, 60vw, 700px)",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div className="marquee-scroller">
+                    <span className="marquee-text">{lyric.repeat(8)}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -397,8 +448,8 @@ const HoverImagePopup: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: "100vw",
-            height: "100vh",
+            right: 0,
+            bottom: 0,
             zIndex: 1999,
           }}
           onClick={() => setShowPopup(false)}
@@ -417,14 +468,13 @@ const HoverImagePopup: React.FC = () => {
               maxHeight: "80vh",
               overflowY: "auto",
               textAlign: "center",
-              opacity: 0.8,
+              opacity: 0.85,
               zIndex: 2000,
               pointerEvents: "auto",
             }}
-            onClick={(e) => e.stopPropagation()} // prevent inner clicks from closing
+            onClick={(e) => e.stopPropagation()}
           >
             <div
-              onClick={(e) => e.stopPropagation()}
               style={{
                 backgroundColor: "#A3A3A3",
                 padding: "2em",
@@ -469,7 +519,7 @@ const HoverImagePopup: React.FC = () => {
                 </a>
                 <br />
                 <br />
-                if you want to stalk my socials, find me at...
+                if you want to stalk my socials... find me at:
                 <br />
                 <br />
                 {[
