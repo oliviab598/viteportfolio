@@ -10,16 +10,7 @@ const carouselItems = [
 const ListenPage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  const toggleMute = () => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.muted = !audio.muted;
-      setIsMuted(audio.muted);
-    }
-  };
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -27,10 +18,9 @@ const ListenPage: React.FC = () => {
       audio.pause();
       audio.src = `/${carouselItems[currentIndex].audio}`;
       audio.load();
-      audio.muted = isMuted;
       audio.play().catch((err) => console.warn("Autoplay blocked:", err));
     }
-  }, [currentIndex, isMuted]);
+  }, [currentIndex]);
 
   return (
     <div
@@ -72,6 +62,8 @@ const ListenPage: React.FC = () => {
           cursor: "pointer",
           outline: "none",
           zIndex: 1000,
+          opacity: 0.7,
+          transition: "transform 0.3s ease, opacity 0.3s ease",
         }}
         aria-label="Go back home"
       >
@@ -91,6 +83,7 @@ const ListenPage: React.FC = () => {
           opacity: 0.8,
           pointerEvents: "none",
         }}
+        alt=""
       />
       <audio ref={audioRef} preload="auto" />
     </div>

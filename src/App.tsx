@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // Add this if it's not already
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import HoverImagePopup from "./HoverImagePopup";
 import ListenPage from "./ListenPage";

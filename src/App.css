@@ -42,7 +42,7 @@ body,
   mix-blend-mode: difference;
   transition: transform 0.15s ease-out;
   animation: pulse 2s infinite ease-in-out;
-  transform: scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 @keyframes pulse {
@@ -75,7 +75,7 @@ body,
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
-  animation: scroll-loop 120s linear infinite;
+  animation: scroll-loop 30000s linear infinite;
 }
 
 @keyframes scroll-loop {

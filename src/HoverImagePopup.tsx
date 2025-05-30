@@ -12,25 +12,31 @@ const HoverImagePopup: React.FC = () => {
 
   const images = ["image1.png", "image2.png", "image3.png"];
 
+  const [listenText, setListenText] = useState("listen");
+
   const lyric =
     "the mirror's crystal clear · smudges a figment of my mind · swallowed up inside your absence · i am the product of oversight · ";
 
   const discography = [
     {
       image: "manrmir.JPEG",
-      link: "https://on.soundcloud.com/bPAJivvEjFCu34bH9",
+      link: "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ?si=ir_HxmnbRvuETY32V3ajXw",
+      title: "man rm -ir",
     },
     {
       image: "touchyou2.png",
       link: "https://open.spotify.com/album/3ugcwHvC4EdlAU4iZTjULz?si=0hu4TQUkRV2hNIjjoFitoQ",
+      title: "touch you",
     },
     {
       image: "0010.png",
       link: "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ?si=XMnnQGMKSM2Kr_nwuaZygA",
+      title: "0010",
     },
     {
       image: "cerulean3.png",
       link: "https://open.spotify.com/album/4gv3c9loXssU0VkuJI9Zxk?si=E-VnwqpgT6yKWigJzfYqJg",
+      title: "cerulean",
     },
   ];
 
@@ -38,13 +44,6 @@ const HoverImagePopup: React.FC = () => {
 
   const navigate = useNavigate();
 
-  // const handleEnter = () => {
-  //   const audio = audioRef.current;
-  //   if (!audio) return;
-
-  //   audio.play().catch((err) => console.warn("Autoplay blocked:", err));
-  //   setHasEntered(true);
-  // };
   const handleEnter = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -186,9 +185,11 @@ const HoverImagePopup: React.FC = () => {
               className="dotemp-text"
               style={{
                 fontSize: "0.8rem",
+                color: "#B1B2AE",
                 letterSpacing: "0.4em",
-                margin: "0.6em 0",
+                margin: "0.5em 0",
                 opacity: 0.7,
+                textDecoration: "line-through",
               }}
             >
               oliviagbrown.com
@@ -202,6 +203,32 @@ const HoverImagePopup: React.FC = () => {
                 letterSpacing: "0.4em",
               }}
             >
+              <button
+                onClick={() => setShowPopup(true)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.opacity = "1";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.opacity = "0.7";
+                }}
+                style={{
+                  color: "#B1B2AE",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.8rem",
+                  letterSpacing: "0.4em",
+                  cursor: "pointer",
+                  outline: "none",
+                  transition: "transform 0.3s ease, opacity 0.3s ease",
+                  opacity: 0.7,
+                  zIndex: 1000,
+                }}
+                onFocus={(e) => e.currentTarget.blur()}
+              >
+                say hi
+              </button>
               <button
                 onClick={() => navigate("/listen")}
                 style={{
@@ -217,43 +244,18 @@ const HoverImagePopup: React.FC = () => {
                   zIndex: 1000,
                 }}
                 onMouseEnter={(e) => {
+                  setListenText("2 me..");
                   e.currentTarget.style.transform = "scale(1.05)";
                   e.currentTarget.style.opacity = "1";
                 }}
                 onMouseLeave={(e) => {
+                  setListenText("listen");
                   e.currentTarget.style.transform = "scale(1)";
                   e.currentTarget.style.opacity = "0.7";
                 }}
                 onFocus={(e) => e.currentTarget.blur()}
               >
-                listen
-              </button>
-
-              <button
-                onClick={() => setShowPopup(true)}
-                style={{
-                  color: "#B1B2AE",
-                  background: "none",
-                  border: "none",
-                  fontSize: "0.8rem",
-                  letterSpacing: "0.4em",
-                  cursor: "pointer",
-                  outline: "none",
-                  transition: "transform 0.3s ease, opacity 0.3s ease",
-                  opacity: 0.7,
-                  zIndex: 1000,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.opacity = "1";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.opacity = "0.7";
-                }}
-                onFocus={(e) => e.currentTarget.blur()}
-              >
-                say hi
+                {listenText}
               </button>
             </div>
           </nav>
@@ -323,7 +325,8 @@ const HoverImagePopup: React.FC = () => {
                 <br />
                 this site compiles my favorite works at the moment
                 <br />
-                get to know me ...
+                i love to create! whether it be music, coding, both ??¿¿ (+
+                visuals kinda)
                 <br />
               </p>
               <div
@@ -346,7 +349,7 @@ const HoverImagePopup: React.FC = () => {
                   }}
                 >
                   <div className="marquee-scroller">
-                    <span className="marquee-text">{lyric.repeat(8)}</span>
+                    <span className="marquee-text">{lyric.repeat(2000)}</span>
                   </div>
                 </div>
               </div>
@@ -374,6 +377,7 @@ const HoverImagePopup: React.FC = () => {
                 style={{
                   display: "block",
                   transition: "transform 0.3s ease",
+                  textAlign: "center", // Center the text under the image
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "scale(1.03)";
@@ -395,6 +399,18 @@ const HoverImagePopup: React.FC = () => {
                     opacity: 0.6,
                   }}
                 />
+                <p
+                  className="dotemp-text"
+                  style={{
+                    marginTop: "3em",
+                    fontSize: "0.7rem",
+                    letterSpacing: "0.4em",
+                    color: "#B1B2AE",
+                    opacity: 0.7,
+                  }}
+                >
+                  {item.title}
+                </p>
               </a>
             ))}
           </section>
