@@ -41,6 +41,7 @@ const ListenPage: React.FC = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.currentTarget.blur();
+          localStorage.setItem("hasEntered", "true");
           navigate("/");
         }}
         onMouseEnter={(e) => {
