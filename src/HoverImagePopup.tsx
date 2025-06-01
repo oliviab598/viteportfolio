@@ -19,7 +19,7 @@ const HoverImagePopup: React.FC = () => {
 
   const discography = [
     {
-      image: "manrmir.JPEG",
+      image: "manrmir.png",
       link: "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ?si=ir_HxmnbRvuETY32V3ajXw",
       title: "man rm -ir",
     },
