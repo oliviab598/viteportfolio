@@ -49,7 +49,7 @@ const HoverImagePopup: React.FC = () => {
     if (!audio) return;
 
     audio.play().catch((err) => console.warn("Autoplay blocked:", err));
-    localStorage.setItem("hasEntered", "true");
+    sessionStorage.setItem("hasEntered", "true");
     setHasEntered(true);
   };
 
@@ -81,7 +81,7 @@ const HoverImagePopup: React.FC = () => {
   }, [hasEntered]);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasEntered") === "true";
+    const hasVisited = sessionStorage.getItem("hasEntered") === "true";
     setHasEntered(hasVisited);
   }, []);
 
