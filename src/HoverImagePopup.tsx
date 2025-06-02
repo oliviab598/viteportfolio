@@ -370,18 +370,7 @@ const HoverImagePopup: React.FC = () => {
                 rel="noopener noreferrer"
                 style={{
                   display: "block",
-                  transition: "transform 0.3s ease",
-                  textAlign: "center", // Center the text under the image
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.03)";
-                  const img = e.currentTarget.querySelector("img");
-                  if (img) img.style.opacity = "0.8";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1.0)";
-                  const img = e.currentTarget.querySelector("img");
-                  if (img) img.style.opacity = "0.6";
+                  textAlign: "center",
                 }}
               >
                 <img
@@ -391,6 +380,15 @@ const HoverImagePopup: React.FC = () => {
                     width: "80%",
                     maxWidth: "300px",
                     opacity: 0.6,
+                    transition: "transform 0.3s ease, opacity 0.3s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.03)";
+                    e.currentTarget.style.opacity = "0.8";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                    e.currentTarget.style.opacity = "0.6";
                   }}
                 />
                 <p
