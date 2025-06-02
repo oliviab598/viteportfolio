@@ -533,7 +533,6 @@ const HoverImagePopup: React.FC = () => {
                 <br />
                 <br />
                 {[
-                  // { name: "insta", href: "https://instagram.com/olivia.brwn" },
                   {
                     name: "spotify",
                     href: "https://open.spotify.com/artist/0HThQfqn9VOIJeAVwVtvv9?si=4GuxDyhQR8a6725CLxJzwQ",
