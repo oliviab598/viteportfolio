@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
+
+import ImageBanner from "./ImageBanner";
 import "./App.css";
 
 const HoverImagePopup: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const bubbleRef = useRef<HTMLAudioElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
   const [hasEntered, setHasEntered] = useState(false);
-  const [bannerIndex, setBannerIndex] = useState(0);
-
-  const images = ["image1.png", "image2.png", "image3.png"];
 
   const [listenText, setListenText] = useState("listen");
 
@@ -45,10 +45,22 @@ const HoverImagePopup: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEnter = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const bubbleAudio = bubbleRef.current;
+    const mainAudio = audioRef.current;
+    if (!bubbleAudio || !mainAudio) return;
 
-    audio.play().catch((err) => console.warn("Autoplay blocked:", err));
+    // Play bubble sound directly (synchronously triggered by click)
+    bubbleAudio.currentTime = 0;
+    bubbleAudio
+      .play()
+      .catch((err) => console.warn("Bubble play blocked:", err));
+
+    // Play main audio after ~500ms delay (adjust as needed)
+    setTimeout(() => {
+      mainAudio.currentTime = 0;
+      mainAudio.play().catch((err) => console.warn("Autoplay blocked:", err));
+    }, 500);
+
     sessionStorage.setItem("hasEntered", "true");
     setHasEntered(true);
   };
@@ -64,11 +76,14 @@ const HoverImagePopup: React.FC = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setBannerIndex((prev) => (prev + 1) % images.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+    if (showPopup && popupRef.current) {
+      gsap.fromTo(
+        popupRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+      );
+    }
+  }, [showPopup]);
 
   useEffect(() => {
     if (hasEntered) {
@@ -79,6 +94,16 @@ const HoverImagePopup: React.FC = () => {
       );
     }
   }, [hasEntered]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: "power2.out" }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const hasVisited = sessionStorage.getItem("hasEntered") === "true";
@@ -93,6 +118,7 @@ const HoverImagePopup: React.FC = () => {
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: "relative",
         width: "100vw",
@@ -160,36 +186,17 @@ const HoverImagePopup: React.FC = () => {
                 marginTop: "3em",
               }}
             >
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={bannerIndex}
-                  src={`/${images[bannerIndex]}`}
-                  alt={`cycling-banner-${bannerIndex + 1}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.6 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "4em",
-                    height: "7em",
-                    objectFit: "cover",
-                  }}
-                />
-              </AnimatePresence>
+              <ImageBanner />
             </div>
 
             <p
               className="dotemp-text"
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.7rem",
                 color: "#B1B2AE",
                 letterSpacing: "0.4em",
-                margin: "0.5em 0",
+                margin: "0.6em 0",
                 opacity: 0.7,
-                textDecoration: "line-through",
               }}
             >
               oliviagbrown.com
@@ -204,7 +211,21 @@ const HoverImagePopup: React.FC = () => {
               }}
             >
               <button
-                onClick={() => setShowPopup(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.currentTarget.blur();
+
+                  const incidentAudio = new Audio(
+                    "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/bubble.wav"
+                  );
+                  incidentAudio
+                    .play()
+                    .catch((err) => console.warn("Autoplay blocked:", err));
+
+                  incidentAudio.onended = () => {
+                    setShowPopup(true);
+                  };
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "scale(1.05)";
                   e.currentTarget.style.opacity = "1";
@@ -229,8 +250,23 @@ const HoverImagePopup: React.FC = () => {
               >
                 say hi
               </button>
+
               <button
-                onClick={() => navigate("/listen")}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.currentTarget.blur();
+
+                  const incidentAudio = new Audio(
+                    "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/incident.wav"
+                  );
+                  incidentAudio
+                    .play()
+                    .catch((err) => console.warn("Autoplay blocked:", err));
+
+                  incidentAudio.onended = () => {
+                    navigate("/listen");
+                  };
+                }}
                 style={{
                   color: "#B1B2AE",
                   background: "none",
@@ -415,6 +451,11 @@ const HoverImagePopup: React.FC = () => {
         </>
       )}
       <audio
+        ref={bubbleRef}
+        src="https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/pixel.wav"
+        preload="auto"
+      />
+      <audio
         ref={audioRef}
         src="https://pub-4d497f83b586430fb259ca2d9b006871.r2.dev/0010.wav"
         preload="auto"
@@ -474,6 +515,7 @@ const HoverImagePopup: React.FC = () => {
           onClick={() => setShowPopup(false)}
         >
           <div
+            ref={popupRef}
             style={{
               position: "fixed",
               top: "50%",
@@ -487,7 +529,7 @@ const HoverImagePopup: React.FC = () => {
               maxHeight: "80vh",
               overflowY: "auto",
               textAlign: "center",
-              opacity: 0.85,
+              opacity: 0.8,
               zIndex: 2000,
               pointerEvents: "auto",
             }}

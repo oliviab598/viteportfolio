@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
 
 const carouselItems = [
   {
@@ -20,8 +21,22 @@ const ListenPage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const creatureAudioRef = useRef<HTMLAudioElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 1, ease: "power2.out" }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // Play the current track
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
@@ -29,15 +44,64 @@ const ListenPage: React.FC = () => {
       audio.load();
       audio.play().catch((err) => console.warn("Autoplay blocked:", err));
     }
+
+    if (imageRef.current) {
+      gsap.fromTo(
+        imageRef.current,
+        { opacity: 0 },
+        { opacity: 0.8, duration: 1, ease: "power2.out" }
+      );
+    }
   }, [currentIndex]);
+
+  const handleNextImage = () => {
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        onComplete: () => {
+          setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+        },
+      });
+    } else {
+      setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+    }
+  };
+
+  const handleBackHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.currentTarget.blur();
+    sessionStorage.setItem("hasEntered", "true");
+
+    // Play the creature sound
+    const creatureAudio = new Audio(
+      "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/creature.wav"
+    );
+    creatureAudio.play().catch((err) => console.warn("Autoplay blocked:", err));
+
+    // Animate page fade-out
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onComplete: () => {
+          navigate("/");
+        },
+      });
+    } else {
+      // Fallback if containerRef isn't available
+      navigate("/");
+    }
+  };
 
   return (
     <div
-      onClick={() => {
-        setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
-      }}
+      ref={containerRef}
+      onClick={handleNextImage}
       style={{
-        backgroundColor: "#111",
+        backgroundColor: "#030303",
         color: "#F6F7F2",
         height: "100vh",
         width: "100vw",
@@ -47,12 +111,7 @@ const ListenPage: React.FC = () => {
       }}
     >
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          e.currentTarget.blur();
-          sessionStorage.setItem("hasEntered", "true");
-          navigate("/");
-        }}
+        onClick={handleBackHome}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = "scale(1.2)";
           e.currentTarget.style.opacity = "1";
@@ -81,6 +140,7 @@ const ListenPage: React.FC = () => {
       </button>
 
       <img
+        ref={imageRef}
         src={`/${carouselItems[currentIndex].image}`}
         style={{
           width: "100%",
@@ -96,6 +156,11 @@ const ListenPage: React.FC = () => {
         alt=""
       />
       <audio ref={audioRef} preload="auto" />
+      <audio
+        ref={creatureAudioRef}
+        preload="auto"
+        src="https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/creature.wav"
+      />
     </div>
   );
 };
