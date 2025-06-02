@@ -83,6 +83,12 @@ const HoverImagePopup: React.FC = () => {
   useEffect(() => {
     const hasVisited = sessionStorage.getItem("hasEntered") === "true";
     setHasEntered(hasVisited);
+
+    if (hasVisited && audioRef.current) {
+      audioRef.current
+        .play()
+        .catch((err) => console.warn("Autoplay blocked:", err));
+    }
   }, []);
 
   return (
@@ -408,7 +414,12 @@ const HoverImagePopup: React.FC = () => {
           </section>
         </>
       )}
-      <audio ref={audioRef} src="/0010.wav" preload="auto" loop />
+      <audio
+        ref={audioRef}
+        src="https://pub-4d497f83b586430fb259ca2d9b006871.r2.dev/0010.wav"
+        preload="auto"
+        loop
+      />
       {hasEntered && (
         <button
           onClick={toggleMute}

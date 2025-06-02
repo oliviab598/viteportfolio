@@ -2,9 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const carouselItems = [
-  { image: "image4.jpg", audio: "window8.6.wav" },
-  { image: "image5.jpg", audio: "anguish.wav" },
-  { image: "image6.jpg", audio: "44wvine.wav" },
+  {
+    image: "image4.jpg",
+    audio: "https://pub-043a69f81a1c4abc9c144fa1ba81cedd.r2.dev/window8.6.wav",
+  },
+  {
+    image: "image5.jpg",
+    audio: "https://pub-c42178d5b95e4687902aac9753aa5286.r2.dev/anguish.wav",
+  },
+  {
+    image: "image6.jpg",
+    audio: "https://pub-4e71a3c20c174ddbb6653dba3a665a24.r2.dev/44wvine.wav",
+  },
 ];
 
 const ListenPage: React.FC = () => {
@@ -16,7 +25,7 @@ const ListenPage: React.FC = () => {
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
-      audio.src = `/${carouselItems[currentIndex].audio}`;
+      audio.src = carouselItems[currentIndex].audio;
       audio.load();
       audio.play().catch((err) => console.warn("Autoplay blocked:", err));
     }
