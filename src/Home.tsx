@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-// hey
 
 import ImageBanner from "./ImageBanner";
 import Discography from "./Discography";
@@ -359,7 +358,7 @@ const Home: React.FC = () => {
                 i'm olivia brown
                 <br />i like music and computers &lt;3
                 <br />
-                this site compiles my favorite works at the moment
+                this site compiles my favorite works at the moment !
                 <br />
                 i love to create! whether it be music, coding, both ??¿¿ (+
                 visuals kinda)
