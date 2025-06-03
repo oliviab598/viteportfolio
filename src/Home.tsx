@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
+// hey
 
 import ImageBanner from "./ImageBanner";
 import Discography from "./Discography";
