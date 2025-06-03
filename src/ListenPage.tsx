@@ -74,13 +74,11 @@ const ListenPage: React.FC = () => {
     e.currentTarget.blur();
     sessionStorage.setItem("hasEntered", "true");
 
-    // Play the creature sound
     const creatureAudio = new Audio(
       "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/creature.wav"
     );
     creatureAudio.play().catch((err) => console.warn("Autoplay blocked:", err));
 
-    // Animate page fade-out
     if (containerRef.current) {
       gsap.to(containerRef.current, {
         opacity: 0,
@@ -91,7 +89,6 @@ const ListenPage: React.FC = () => {
         },
       });
     } else {
-      // Fallback if containerRef isn't available
       navigate("/");
     }
   };
@@ -113,12 +110,10 @@ const ListenPage: React.FC = () => {
       <button
         onClick={handleBackHome}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.2)";
-          e.currentTarget.style.opacity = "1";
+          e.currentTarget.style.textDecoration = "underline";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.opacity = "0.7";
+          e.currentTarget.style.textDecoration = "none";
         }}
         style={{
           position: "absolute",
@@ -126,17 +121,20 @@ const ListenPage: React.FC = () => {
           left: "1rem",
           background: "none",
           border: "none",
-          color: "#91928f",
-          fontSize: "1.5rem",
+          color: "#ffffff",
+          fontSize: "1rem",
           cursor: "pointer",
           outline: "none",
           zIndex: 1000,
           opacity: 0.7,
-          transition: "transform 0.3s ease, opacity 0.3s ease",
+          transition: "text-decoration 0.3s ease",
+          fontFamily: "monospace",
+          letterSpacing: "1px",
+          textDecoration: "none",
         }}
         aria-label="Go back home"
       >
-        ←
+        &lt;BACK
       </button>
 
       <img
