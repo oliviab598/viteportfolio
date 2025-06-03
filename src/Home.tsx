@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 
 import ImageBanner from "./ImageBanner";
+import Discography from "./Discography";
 import "./App.css";
 
-const HoverImagePopup: React.FC = () => {
+const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bubbleRef = useRef<HTMLAudioElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -17,29 +18,6 @@ const HoverImagePopup: React.FC = () => {
   const lyric =
     "the mirror's crystal clear · smudges a figment of my mind · swallowed up inside your absence · i am the product of oversight · ";
 
-  const discography = [
-    {
-      image: "manrmir.png",
-      link: "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ?si=ir_HxmnbRvuETY32V3ajXw",
-      title: "man rm -ir",
-    },
-    {
-      image: "touchyou2.png",
-      link: "https://open.spotify.com/album/3ugcwHvC4EdlAU4iZTjULz?si=0hu4TQUkRV2hNIjjoFitoQ",
-      title: "touch you",
-    },
-    {
-      image: "0010.png",
-      link: "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ?si=XMnnQGMKSM2Kr_nwuaZygA",
-      title: "0010",
-    },
-    {
-      image: "cerulean3.png",
-      link: "https://open.spotify.com/album/4gv3c9loXssU0VkuJI9Zxk?si=E-VnwqpgT6yKWigJzfYqJg",
-      title: "cerulean",
-    },
-  ];
-
   const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
@@ -49,13 +27,11 @@ const HoverImagePopup: React.FC = () => {
     const mainAudio = audioRef.current;
     if (!bubbleAudio || !mainAudio) return;
 
-    // Play bubble sound directly (synchronously triggered by click)
     bubbleAudio.currentTime = 0;
     bubbleAudio
       .play()
       .catch((err) => console.warn("Bubble play blocked:", err));
 
-    // Play main audio after ~500ms delay (adjust as needed)
     setTimeout(() => {
       mainAudio.currentTime = 0;
       mainAudio.play().catch((err) => console.warn("Autoplay blocked:", err));
@@ -74,6 +50,29 @@ const HoverImagePopup: React.FC = () => {
     audio.muted = !audio.muted;
     setIsMuted(audio.muted);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      gsap.utils.toArray(".album-container").forEach((el: any, i: number) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.1,
+          }
+        );
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (showPopup && popupRef.current) {
@@ -391,63 +390,7 @@ const HoverImagePopup: React.FC = () => {
               </div>
             </div>
           </div>
-
-          <section
-            className="discography-section"
-            style={{
-              padding: "10em 14em",
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              rowGap: "10em",
-              justifyItems: "center",
-              alignItems: "center",
-              backgroundColor: "#111",
-            }}
-          >
-            {discography.map((item, idx) => (
-              <a
-                key={idx}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "block",
-                  textAlign: "center",
-                }}
-              >
-                <img
-                  src={`/${item.image}`}
-                  alt={`album-${idx + 1}`}
-                  style={{
-                    width: "80%",
-                    maxWidth: "300px",
-                    opacity: 0.6,
-                    transition: "transform 0.3s ease, opacity 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.03)";
-                    e.currentTarget.style.opacity = "0.8";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.opacity = "0.6";
-                  }}
-                />
-                <p
-                  className="dotemp-text"
-                  style={{
-                    marginTop: "3em",
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.4em",
-                    color: "#B1B2AE",
-                    opacity: 0.7,
-                  }}
-                >
-                  {item.title}
-                </p>
-              </a>
-            ))}
-          </section>
+          <Discography />
         </>
       )}
       <audio
@@ -663,4 +606,4 @@ const HoverImagePopup: React.FC = () => {
   );
 };
 
-export default HoverImagePopup;
+export default Home;

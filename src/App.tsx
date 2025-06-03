@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import HoverImagePopup from "./HoverImagePopup";
+import Home from "./Home";
 import ListenPage from "./ListenPage";
 
 const App: React.FC = () => {
@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<HoverImagePopup />} />
+      <Route path="/" element={<Home />} />
       <Route path="/listen" element={<ListenPage />} />
     </Routes>
   );
