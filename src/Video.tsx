@@ -9,7 +9,7 @@ const Video: React.FC = () => (
       style={{ display: "inline-block", width: "100%" }}
     >
       <video
-        src="https://pub-1035be232e0f4c9d869c88b1a5a469a7.r2.dev/agnod.mov"
+        src="https://pub-1035be232e0f4c9d869c88b1a5a469a7.r2.dev/agnod.mp4"
         autoPlay
         muted
         loop
