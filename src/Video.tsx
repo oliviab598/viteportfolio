@@ -14,6 +14,7 @@ const Video: React.FC = () => (
         muted
         loop
         playsInline
+        preload="auto"
         style={{
           width: "100%",
           height: "auto",
