@@ -2,18 +2,69 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 
+const sounds = [
+  {
+    spotify: "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/horizon.wav",
+    soundcloud:
+      "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/isotope.wav",
+    bandcamp: "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/linacs.wav",
+  },
+];
+
 const carouselItems = [
   {
     image: "image4.jpg",
     audio: "https://pub-043a69f81a1c4abc9c144fa1ba81cedd.r2.dev/window8.6.wav",
+    links: [
+      {
+        text: "soundcloud",
+        url: "https://on.soundcloud.com/3Ae30VQ8wAmnOjrV8R",
+      },
+      {
+        text: "bandcamp",
+        url: "https://oliviabrown2.bandcamp.com/track/window86",
+      },
+      {
+        text: "spotify",
+        url: "https://open.spotify.com/track/53n34AeRQq8aKlRnnR2FPQ?si=09b66387604e40f5",
+      },
+    ],
   },
   {
     image: "image5.jpg",
     audio: "https://pub-c42178d5b95e4687902aac9753aa5286.r2.dev/anguish.wav",
+    links: [
+      {
+        text: "soundcloud",
+        url: "https://on.soundcloud.com/LBgMAReTpRyUNwuq5A",
+      },
+      {
+        text: "bandcamp",
+        url: "https://oliviabrown2.bandcamp.com/track/anguish",
+      },
+      {
+        text: "spotify",
+        url: "https://open.spotify.com/track/0PpVAl5RTkqFSYn599lkYz?si=1fa2dd7397564dd6",
+      },
+    ],
   },
   {
     image: "image6.jpg",
     audio: "https://pub-4e71a3c20c174ddbb6653dba3a665a24.r2.dev/44wvine.wav",
+    links: [
+      {
+        text: "soundcloud",
+        url: "https://on.soundcloud.com/Qtgyw31KZ6GOpld9hI",
+      },
+      {
+        text: "bandcamp",
+        url: "https://oliviabrown2.bandcamp.com/track/44-w-vine",
+      },
+      {
+        text: "spotify",
+        url: "https://open.spotify.com/track/2fJkvgmfupPatEcWOCrtUC?si=aa244a55398b4c4d",
+      },
+    ],
   },
 ];
 
@@ -26,6 +77,20 @@ const ListenPage: React.FC = () => {
   const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    const originalBodyBackground = document.body.style.backgroundColor;
+    const originalHtmlBackground =
+      document.documentElement.style.backgroundColor;
+
+    document.body.style.backgroundColor = "black";
+    document.documentElement.style.backgroundColor = "black";
+
+    return () => {
+      document.body.style.backgroundColor = originalBodyBackground;
+      document.documentElement.style.backgroundColor = originalHtmlBackground;
+    };
+  }, []);
+
+  useEffect(() => {
     if (containerRef.current) {
       gsap.fromTo(
         containerRef.current,
@@ -36,7 +101,6 @@ const ListenPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Play the current track
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
@@ -93,28 +157,43 @@ const ListenPage: React.FC = () => {
     }
   };
 
+  const handleLinkClick = (
+    platform: string,
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    e.stopPropagation();
+
+    const soundUrl = sounds[0][platform as keyof (typeof sounds)[0]];
+    if (soundUrl) {
+      const platformAudio = new Audio(soundUrl);
+      platformAudio
+        .play()
+        .catch((err) => console.warn("Autoplay blocked:", err));
+    }
+  };
+
   return (
     <div
       ref={containerRef}
       onClick={handleNextImage}
       style={{
-        backgroundColor: "#030303",
-        color: "#F6F7F2",
+        backgroundColor: "#010101",
         height: "100vh",
         width: "100vw",
         overflow: "hidden",
         fontFamily: "inherit",
         position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       <button
         onClick={handleBackHome}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.textDecoration = "underline";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.textDecoration = "none";
-        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.textDecoration = "underline")
+        }
+        onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
         style={{
           position: "absolute",
           top: "1rem",
@@ -122,15 +201,12 @@ const ListenPage: React.FC = () => {
           background: "none",
           border: "none",
           color: "#ffffff",
-          fontSize: "1rem",
+          fontSize: "0.5rem",
           cursor: "pointer",
           outline: "none",
           zIndex: 1000,
           opacity: 0.7,
-          transition: "text-decoration 0.3s ease",
-          fontFamily: "monospace",
           letterSpacing: "1px",
-          textDecoration: "none",
         }}
         aria-label="Go back home"
       >
@@ -153,6 +229,33 @@ const ListenPage: React.FC = () => {
         }}
         alt=""
       />
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "2rem",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: "5rem",
+          opacity: 0.7,
+          zIndex: 1000,
+        }}
+      >
+        {carouselItems[currentIndex].links.map((link, index) => (
+          <a
+            key={index}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="album-link-text"
+            onClick={(e) => handleLinkClick(link.text.toLowerCase(), e)}
+          >
+            {link.text}
+          </a>
+        ))}
+      </div>
+
       <audio ref={audioRef} preload="auto" />
       <audio
         ref={creatureAudioRef}

@@ -5,25 +5,15 @@ body,
   padding: 0;
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: white;
   overflow: auto;
-  color: #f6f7f2;
+
+  color: black;
   scroll-behavior: smooth;
 }
 
 * {
   box-sizing: border-box;
-}
-
-@font-face {
-  font-family: "Dotemp 8bit";
-  src: url("/Dotemp-8bit.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-.dotemp-text {
-  font-family: "Dotemp 8bit", sans-serif;
 }
 
 * {
@@ -94,14 +84,12 @@ body,
   padding-right: 2em;
   font-size: 0.5rem;
   letter-spacing: 0.5em;
-  font-family: "Dotemp 8bit", sans-serif;
-  color: #91928f;
+  color: white;
 }
 
 .marquee-label {
-  background-color: #91928f;
-  color: #111;
-  font-family: "Dotemp 8bit", sans-serif;
+  background-color: black;
+  color: white;
   font-size: 0.5rem;
   letter-spacing: 0.5em;
   margin-right: 0.5em;
@@ -111,20 +99,15 @@ body,
 }
 
 .discography-wrapper {
-  position: relative;
-  overflow: hidden;
   width: 100%;
-  min-height: 100vh;
 }
 
 .discography-section {
-  padding: 8em 2em;
+  padding: 1.5em 4em;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 2em;
   justify-items: center;
   align-items: start;
-  background-color: #111;
   position: relative;
   z-index: 2;
 }
@@ -136,47 +119,12 @@ body,
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.3s ease;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .album-image.smaller {
   width: 5em;
   height: auto;
-  border-radius: 8px;
-  opacity: 0.6;
   transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.album-container::before,
-.album-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  opacity: 0;
-}
-
-.album-container::before {
-  transform: translate(2px, 0);
-  filter: brightness(1.1) sepia(1) hue-rotate(330deg);
-}
-
-.album-container::after {
-  transform: translate(-2px, 0);
-  filter: brightness(1.1) sepia(1) hue-rotate(190deg);
-}
-
-.album-container:hover::before,
-.album-container:hover::after {
-  opacity: 0.5;
 }
 
 .album-links {
@@ -186,7 +134,7 @@ body,
 }
 
 .album-link-text {
-  color: #f6f7f2;
+  color: white;
   text-decoration: none;
   font-size: 0.7rem;
 }
@@ -209,30 +157,81 @@ body,
 .album-entry .dotemp-text {
   margin-bottom: 0.25em;
 }
-
 @keyframes flicker {
   0% {
     opacity: 1;
   }
-  5% {
+  2% {
     opacity: 0.4;
   }
-  10% {
+  4% {
     opacity: 0.9;
+  }
+  7% {
+    opacity: 0.1;
+  }
+  10% {
+    opacity: 0.7;
   }
   15% {
     opacity: 0.2;
   }
   20% {
-    opacity: 0.7;
+    opacity: 0.9;
   }
   25% {
     opacity: 0.3;
   }
   30% {
-    opacity: 1;
-  }
-  100% {
     opacity: 0.8;
   }
+  35% {
+    opacity: 0.4;
+  }
+  40% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  55% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  65% {
+    opacity: 0.3;
+  }
+  70% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  95% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.enter-button {
+  animation: flicker 1.5s infinite alternate;
+  transition: opacity 0.3s ease;
+}
+
+.enter-button:hover {
+  animation: none;
+  opacity: 1;
 }

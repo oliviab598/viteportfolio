@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-
-import ImageBanner from "./ImageBanner";
 import Discography from "./Discography";
+import Video from "./Video";
 import "./App.css";
 
 const Home: React.FC = () => {
@@ -12,11 +11,6 @@ const Home: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const [hasEntered, setHasEntered] = useState(false);
-
-  const [listenText, setListenText] = useState("listen");
-
-  const lyric =
-    "the mirror's crystal clear · smudges a figment of my mind · swallowed up inside your absence · i am the product of oversight · ";
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -41,38 +35,12 @@ const Home: React.FC = () => {
     setHasEntered(true);
   };
 
-  const [isMuted, setIsMuted] = useState(false);
-
   const toggleMute = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     audio.muted = !audio.muted;
-    setIsMuted(audio.muted);
   };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      gsap.utils.toArray(".album-container").forEach((el: any, i: number) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-            delay: i * 0.1,
-          }
-        );
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (showPopup && popupRef.current) {
@@ -125,9 +93,9 @@ const Home: React.FC = () => {
         overflowX: "hidden",
         margin: 0,
         padding: 0,
-        backgroundColor: "#111",
+        backgroundColor: "white",
         fontFamily: "inherit",
-        color: "#F6F7F2",
+        color: "black",
       }}
     >
       {!hasEntered ? (
@@ -142,29 +110,19 @@ const Home: React.FC = () => {
         >
           <button
             onClick={handleEnter}
-            className="dotemp-text"
+            className="enter-button"
             style={{
               background: "none",
               border: "none",
-              color: "#F6F7F2",
+              color: "black",
               fontSize: "1.5rem",
               cursor: "pointer",
-              opacity: 0.7,
               outline: "none",
               WebkitTapHighlightColor: "transparent",
-              transition: "opacity 0.3s ease, transform 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "1";
-              e.currentTarget.style.transform = "scale(1.03)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "0.7";
-              e.currentTarget.style.transform = "scale(1)";
             }}
             onFocus={(e) => e.currentTarget.blur()}
           >
-            enter
+            [ enter ]
           </button>
         </div>
       ) : (
@@ -174,34 +132,35 @@ const Home: React.FC = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginBottom: "3em",
+              margin: "3em",
             }}
           >
-            <div
+            <video
+              src="https://pub-1035be232e0f4c9d869c88b1a5a469a7.r2.dev/logo.mov"
+              autoPlay
+              muted
+              loop
+              playsInline
               style={{
-                position: "relative",
-                width: "clamp(3em, 10vw, 4em)",
-                height: "clamp(5em, 18vh, 7em)",
-                marginTop: "3em",
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginTop: "0.5em",
+                marginBottom: "1em",
               }}
-            >
-              <ImageBanner />
-            </div>
-
+            />
             <p
-              className="dotemp-text"
               style={{
                 fontSize: "0.7rem",
-                color: "#B1B2AE",
+                color: "black",
                 letterSpacing: "0.4em",
                 margin: "0.6em 0",
-                opacity: 0.7,
               }}
             >
               oliviagbrown.com
             </p>
             <div
-              className="dotemp-text"
               style={{
                 display: "flex",
                 gap: "50em",
@@ -226,23 +185,22 @@ const Home: React.FC = () => {
                   };
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.textDecoration = "underline"; // Underline
                   e.currentTarget.style.opacity = "1";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.textDecoration = "none"; // Remove underline
                   e.currentTarget.style.opacity = "0.7";
                 }}
                 style={{
-                  color: "#B1B2AE",
+                  color: "black",
                   background: "none",
                   border: "none",
-                  fontSize: "0.8rem",
+                  fontSize: "0.6rem",
                   letterSpacing: "0.4em",
                   cursor: "pointer",
                   outline: "none",
                   transition: "transform 0.3s ease, opacity 0.3s ease",
-                  opacity: 0.7,
                   zIndex: 1000,
                 }}
                 onFocus={(e) => e.currentTarget.blur()}
@@ -267,30 +225,27 @@ const Home: React.FC = () => {
                   };
                 }}
                 style={{
-                  color: "#B1B2AE",
+                  color: "black",
                   background: "none",
                   border: "none",
-                  fontSize: "0.8rem",
+                  fontSize: "0.6rem",
                   letterSpacing: "0.4em",
                   cursor: "pointer",
                   outline: "none",
                   transition: "transform 0.3s ease, opacity 0.3s ease",
-                  opacity: 0.7,
                   zIndex: 1000,
                 }}
                 onMouseEnter={(e) => {
-                  setListenText("2 me..");
-                  e.currentTarget.style.transform = "scale(1.05)";
                   e.currentTarget.style.opacity = "1";
+                  e.currentTarget.style.textDecoration = "underline";
                 }}
                 onMouseLeave={(e) => {
-                  setListenText("listen");
-                  e.currentTarget.style.transform = "scale(1)";
                   e.currentTarget.style.opacity = "0.7";
+                  e.currentTarget.style.textDecoration = "none";
                 }}
                 onFocus={(e) => e.currentTarget.blur()}
               >
-                {listenText}
+                listen
               </button>
             </div>
           </nav>
@@ -320,11 +275,10 @@ const Home: React.FC = () => {
                 src="/logo.png"
                 alt="Logo"
                 style={{
-                  maxWidth: "300px",
+                  maxWidth: "20em",
                   width: "50%",
                   height: "auto",
                   cursor: "default",
-                  opacity: 0.7,
                 }}
               />
 
@@ -342,13 +296,11 @@ const Home: React.FC = () => {
             </div>
             <div>
               <p
-                className="dotemp-text"
                 style={{
                   position: "relative",
                   fontSize: "clamp(0.1rem, 1vw, 0.5rem)",
                   letterSpacing: "0.5em",
                   marginTop: "2em",
-                  opacity: 0.7,
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
@@ -358,38 +310,12 @@ const Home: React.FC = () => {
                 i'm olivia brown
                 <br />i like music and computers &lt;3
                 <br />
-                this site compiles my favorite works at the moment !
-                <br />
-                i love to create! whether it be music, coding, both ??¿¿ (+
-                visuals kinda)
+                i love creating.. sound · code · both ?¿
                 <br />
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  marginTop: "-0.8em",
-                }}
-              >
-                <div className="marquee-label">fav lyrics: </div>
-
-                <div
-                  className="marquee-container"
-                  style={{
-                    width: "clamp(200px, 60vw, 700px)",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div className="marquee-scroller">
-                    <span className="marquee-text">{lyric.repeat(2000)}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
+          <Video />
           <Discography />
         </>
       )}
@@ -400,7 +326,7 @@ const Home: React.FC = () => {
       />
       <audio
         ref={audioRef}
-        src="https://pub-4d497f83b586430fb259ca2d9b006871.r2.dev/0010.wav"
+        // src="https://pub-4d497f83b586430fb259ca2d9b006871.r2.dev/0010.wav"
         preload="auto"
         loop
       />
@@ -423,27 +349,16 @@ const Home: React.FC = () => {
             transition: "transform 0.3s ease, opacity 0.3s ease",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.1)";
+            e.currentTarget.style.textDecoration = "underline";
             e.currentTarget.style.opacity = "1";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.textDecoration = "none";
             e.currentTarget.style.opacity = "0.7";
           }}
           onFocus={(e) => e.currentTarget.blur()}
           aria-label="Toggle Music"
-        >
-          <img
-            src={isMuted ? "/speaker-slash.png" : "/speaker.png"}
-            alt={isMuted ? "Muted" : "Playing"}
-            style={{
-              width: "1.5em",
-              height: "1.5em",
-              opacity: 0.7,
-              pointerEvents: "none",
-            }}
-          />
-        </button>
+        ></button>
       )}
       {showPopup && (
         <div
@@ -454,6 +369,7 @@ const Home: React.FC = () => {
             right: 0,
             bottom: 0,
             zIndex: 1999,
+            opacity: 0.85,
           }}
           onClick={() => setShowPopup(false)}
         >
@@ -464,15 +380,15 @@ const Home: React.FC = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              backgroundColor: "#A3A3A3",
+              backgroundColor: "white",
               padding: "2em",
-              color: "#F6F7F2",
+              color: "black",
               fontFamily: "inherit",
               maxWidth: "90vw",
               maxHeight: "80vh",
               overflowY: "auto",
               textAlign: "center",
-              opacity: 0.8,
+              opacity: 0.5,
               zIndex: 2000,
               pointerEvents: "auto",
             }}
@@ -480,21 +396,21 @@ const Home: React.FC = () => {
           >
             <div
               style={{
-                backgroundColor: "#A3A3A3",
+                backgroundColor: "white",
                 padding: "2em",
-                color: "#F6F7F2",
+                color: "black",
                 fontFamily: "inherit",
                 maxWidth: "90vw",
                 maxHeight: "80vh",
                 overflowY: "auto",
                 textAlign: "center",
-                opacity: 0.6,
+                opacity: 0.8,
               }}
             >
               <h2 style={{ marginBottom: "1em", fontSize: "1.2rem" }}>
                 <span>{`( > _ < )'' .ᐟ`}</span>
               </h2>
-              <p style={{ opacity: 0.7, fontSize: "0.9rem" }}>
+              <p style={{ opacity: 0.9, fontSize: "0.9rem" }}>
                 if you have any business inquiries, questions, or just
                 <br />
                 want to say hi, shoot me an email <span>{`:)`}</span>
@@ -504,7 +420,7 @@ const Home: React.FC = () => {
                   href="https://gmail.com"
                   target="_blank"
                   style={{
-                    color: "#F6F7F2",
+                    color: "black",
                     textDecoration: "underline",
                     display: "inline-block",
                     marginBottom: "0.4rem",
@@ -512,11 +428,9 @@ const Home: React.FC = () => {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.opacity = "0.6";
-                    e.currentTarget.style.transform = "scale(1.03)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.opacity = "1";
-                    e.currentTarget.style.transform = "scale(1)";
                   }}
                 >
                   olivia.b.598@gmail.com
@@ -550,7 +464,7 @@ const Home: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
-                        color: "#F6F7F2",
+                        color: "black",
                         textDecoration: "underline",
                         display: "inline-block",
                         marginBottom: "0.3rem",
@@ -558,11 +472,9 @@ const Home: React.FC = () => {
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.opacity = "0.6";
-                        e.currentTarget.style.transform = "scale(1.03)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.opacity = "1";
-                        e.currentTarget.style.transform = "scale(1)";
                       }}
                     >
                       {name}
@@ -575,7 +487,7 @@ const Home: React.FC = () => {
               <button
                 onClick={() => setShowPopup(false)}
                 style={{
-                  color: "#F6F7F2",
+                  color: "black",
                   background: "none",
                   border: "none",
                   fontSize: "0.8rem",
@@ -587,11 +499,9 @@ const Home: React.FC = () => {
                   zIndex: 1000,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
                   e.currentTarget.style.opacity = "1";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
                   e.currentTarget.style.opacity = "0.7";
                 }}
                 onFocus={(e) => e.currentTarget.blur()}
