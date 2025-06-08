@@ -21,7 +21,7 @@ const Discography: React.FC = () => {
 
   const discography = [
     {
-      image: "manrmir.png",
+      image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/manrmir.png",
       title: "man rm -ir",
       spotify:
         "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ?si=ir_HxmnbRvuETY32V3ajXw",
@@ -29,7 +29,8 @@ const Discography: React.FC = () => {
       bandcamp: "https://oliviabrown2.bandcamp.com/album/man-rm-ir",
     },
     {
-      image: "touchyou2.png",
+      image:
+        "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/touchyou2.png",
       title: "touch you",
       spotify:
         "https://open.spotify.com/album/3ugcwHvC4EdlAU4iZTjULz?si=0hu4TQUkRV2hNIjjoFitoQ",
@@ -37,7 +38,7 @@ const Discography: React.FC = () => {
       bandcamp: "https://oliviabrown2.bandcamp.com/track/touch-you",
     },
     {
-      image: "0010.png",
+      image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/0010.png",
       title: "0010",
       spotify:
         "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ?si=XMnnQGMKSM2Kr_nwuaZygA",
@@ -79,7 +80,7 @@ const Discography: React.FC = () => {
           <div key={idx} className="album-container">
             <a className="album-link">
               <img
-                src={`/${item.image}`}
+                src={item.image}
                 alt={`album-${idx + 1}`}
                 className="album-image smaller"
               />

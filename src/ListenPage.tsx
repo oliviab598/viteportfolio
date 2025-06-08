@@ -13,7 +13,7 @@ const sounds = [
 
 const carouselItems = [
   {
-    image: "image4.jpg",
+    image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/image4.jpg",
     audio: "https://pub-043a69f81a1c4abc9c144fa1ba81cedd.r2.dev/window8.6.wav",
     links: [
       {
@@ -31,7 +31,7 @@ const carouselItems = [
     ],
   },
   {
-    image: "image5.jpg",
+    image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/image5.jpg",
     audio: "https://pub-c42178d5b95e4687902aac9753aa5286.r2.dev/anguish.wav",
     links: [
       {
@@ -49,7 +49,7 @@ const carouselItems = [
     ],
   },
   {
-    image: "image6.jpg",
+    image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/image6.jpg",
     audio: "https://pub-4e71a3c20c174ddbb6653dba3a665a24.r2.dev/44wvine.wav",
     links: [
       {
@@ -215,7 +215,7 @@ const ListenPage: React.FC = () => {
 
       <img
         ref={imageRef}
-        src={`/${carouselItems[currentIndex].image}`}
+        src={carouselItems[currentIndex].image}
         style={{
           width: "100%",
           height: "100%",

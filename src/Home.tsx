@@ -185,11 +185,11 @@ const Home: React.FC = () => {
                   };
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.textDecoration = "underline"; // Underline
+                  e.currentTarget.style.textDecoration = "underline";
                   e.currentTarget.style.opacity = "1";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.textDecoration = "none"; // Remove underline
+                  e.currentTarget.style.textDecoration = "none";
                   e.currentTarget.style.opacity = "0.7";
                 }}
                 style={{
@@ -272,7 +272,7 @@ const Home: React.FC = () => {
               }}
             >
               <img
-                src="/logo.png"
+                src="https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/logo.png"
                 alt="Logo"
                 style={{
                   maxWidth: "20em",
