@@ -70,11 +70,7 @@ const Discography: React.FC = () => {
   };
 
   return (
-    <div
-      className="discography-wrapper"
-      ref={wrapperRef}
-      style={{ marginTop: "-15em" }}
-    >
+    <div className="discography-wrapper" ref={wrapperRef}>
       <section className="discography-section">
         {discography.map((item, idx) => (
           <div key={idx} className="album-container">
@@ -158,8 +154,7 @@ const Discography: React.FC = () => {
           color: "white",
           justifyContent: "center",
           textAlign: "center",
-          marginTop: "2em",
-          marginBottom: "-1em",
+          padding: "2em",
           opacity: 0.85,
           letterSpacing: "1.5px",
           fontSize: "0.5em",
