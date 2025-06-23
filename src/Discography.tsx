@@ -23,7 +23,8 @@ const Discography: React.FC = () => {
     {
       image: "https://pub-a767803cacdb4977bdb56815a0b057b5.r2.dev/helpless.jpg",
       title: "helpless",
-      spotify: "",
+      spotify:
+        "https://open.spotify.com/album/0pjKYEkMi4QOwTaHKnLRfT?si=j7laCng0QqWCLSVFvMcJhw",
       soundcloud: "https://on.soundcloud.com/wMeplDiw0idwQZl7sy",
       bandcamp: "https://oliviabrown2.bandcamp.com/track/helpless",
     },
