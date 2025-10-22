@@ -21,10 +21,16 @@ const Discography: React.FC = () => {
 
   const discography = [
     {
+      image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/found.png",
+      title: "found",
+      spotify: "https://open.spotify.com/track/1jiVdOGHI3TWnMXEGsUXam",
+      soundcloud: "https://soundcloud.com/olivia-brown-448332522/found",
+      bandcamp: "https://oliviabrown2.bandcamp.com/track/found",
+    },
+    {
       image: "https://pub-a767803cacdb4977bdb56815a0b057b5.r2.dev/helpless.jpg",
       title: "helpless",
-      spotify:
-        "https://open.spotify.com/album/0pjKYEkMi4QOwTaHKnLRfT?si=j7laCng0QqWCLSVFvMcJhw",
+      spotify: "https://open.spotify.com/album/0pjKYEkMi4QOwTaHKnLRfT",
       soundcloud: "https://on.soundcloud.com/wMeplDiw0idwQZl7sy",
       bandcamp: "https://oliviabrown2.bandcamp.com/track/helpless",
     },
@@ -32,25 +38,14 @@ const Discography: React.FC = () => {
     {
       image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/manrmir.png",
       title: "man rm -ir",
-      spotify:
-        "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ?si=ir_HxmnbRvuETY32V3ajXw",
+      spotify: "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ",
       soundcloud: "https://on.soundcloud.com/cs3SEMqgmzEydpUwOY",
       bandcamp: "https://oliviabrown2.bandcamp.com/album/man-rm-ir",
     },
     {
-      image:
-        "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/touchyou2.png",
-      title: "touch you",
-      spotify:
-        "https://open.spotify.com/album/3ugcwHvC4EdlAU4iZTjULz?si=0hu4TQUkRV2hNIjjoFitoQ",
-      soundcloud: "https://on.soundcloud.com/vgmr56ok9wc20A4GSw",
-      bandcamp: "https://oliviabrown2.bandcamp.com/track/touch-you",
-    },
-    {
       image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/0010.png",
       title: "0010",
-      spotify:
-        "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ?si=XMnnQGMKSM2Kr_nwuaZygA",
+      spotify: "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ",
       soundcloud: "https://on.soundcloud.com/1mynQPMWTaOchSxy8r",
       bandcamp: "https://oliviabrown2.bandcamp.com/track/0010-feat-iyrliaes",
     },
