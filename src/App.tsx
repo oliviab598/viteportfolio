@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import ListenPage from "./ListenPage";
+import VisualsPage from "./VisualsPage";
+import "./App.css";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -24,18 +25,9 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/listen" element={<ListenPage />} />
+      <Route path="/visuals" element={<VisualsPage />} />
     </Routes>
   );
 };
 
 export default App;
-
-// import React from "react";
-// import UnderConstruction from "./UnderConstruction";
-
-// const App: React.FC = () => {
-//   return <UnderConstruction />;
-// };
-
-// export default App;

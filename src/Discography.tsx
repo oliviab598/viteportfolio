@@ -6,7 +6,7 @@ const Discography: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const lyric =
-    "the mirror's crystal clear · smudges a figment of my mind · swallowed up inside your absence · i am the product of oversight · ";
+    "breath caught in my lungs · silence taking hold · airways start to close · won't you take control · my head is my head · while the beat implodes · i beg you please take me · take me";
 
   const sounds = [
     {
@@ -28,14 +28,6 @@ const Discography: React.FC = () => {
       bandcamp: "https://oliviabrown2.bandcamp.com/track/found",
     },
     {
-      image: "https://pub-a767803cacdb4977bdb56815a0b057b5.r2.dev/helpless.jpg",
-      title: "helpless",
-      spotify: "https://open.spotify.com/album/0pjKYEkMi4QOwTaHKnLRfT",
-      soundcloud: "https://on.soundcloud.com/wMeplDiw0idwQZl7sy",
-      bandcamp: "https://oliviabrown2.bandcamp.com/track/helpless",
-    },
-
-    {
       image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/manrmir.png",
       title: "man rm -ir",
       spotify: "https://open.spotify.com/album/32JJ1P36P8Q79HBf26AgeQ",
@@ -43,11 +35,11 @@ const Discography: React.FC = () => {
       bandcamp: "https://oliviabrown2.bandcamp.com/album/man-rm-ir",
     },
     {
-      image: "https://pub-7d9eb3a8d56049a2aeea7c4d69dc6854.r2.dev/0010.png",
-      title: "0010",
-      spotify: "https://open.spotify.com/album/1bAMq1Yxv9s08il20ulFhZ",
-      soundcloud: "https://on.soundcloud.com/1mynQPMWTaOchSxy8r",
-      bandcamp: "https://oliviabrown2.bandcamp.com/track/0010-feat-iyrliaes",
+      image: "https://pub-a767803cacdb4977bdb56815a0b057b5.r2.dev/helpless.jpg",
+      title: "helpless",
+      spotify: "https://open.spotify.com/album/0pjKYEkMi4QOwTaHKnLRfT",
+      soundcloud: "https://on.soundcloud.com/wMeplDiw0idwQZl7sy",
+      bandcamp: "https://oliviabrown2.bandcamp.com/track/helpless",
     },
   ];
 
@@ -149,7 +141,7 @@ const Discography: React.FC = () => {
           }}
         >
           <div className="marquee-scroller">
-            <span className="marquee-text">{lyric.repeat(2000)}</span>
+            <span className="marquee-text">{lyric.repeat(1500)}</span>
           </div>
         </div>
       </div>
