@@ -21,6 +21,12 @@ const VIDEO_ITEMS = [
     href: "https://www.youtube.com/watch?v=Au_CngotiCc",
     title: "sparrow",
   },
+  {
+    defaultImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning.png",
+    hoverImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning2.png",
+    href: "https://www.youtube.com/watch?v=tVUhPrlv_9s",
+    title: "drowning",
+  }
 ];
 
 const VisualsPage: React.FC = () => {
