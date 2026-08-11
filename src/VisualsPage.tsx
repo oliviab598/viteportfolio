@@ -4,6 +4,12 @@ import { gsap } from "gsap";
 
 const VIDEO_ITEMS = [
   {
+    defaultImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning.png",
+    hoverImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning2.png",
+    href: "https://www.youtube.com/watch?v=tVUhPrlv_9s",
+    title: "drowning",
+  },
+  {
     defaultImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/blossom1.png",
     hoverImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/blossom2.png",
     href: "https://www.youtube.com/watch?v=VzoS1pNo7Hk",
@@ -15,18 +21,6 @@ const VIDEO_ITEMS = [
     href: "https://www.youtube.com/watch?v=ScVUh4v3W_8",
     title: "found",
   },
-  {
-    defaultImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/sparrow1.png",
-    hoverImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/sparrow2.png",
-    href: "https://www.youtube.com/watch?v=Au_CngotiCc",
-    title: "sparrow",
-  },
-  {
-    defaultImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning.png",
-    hoverImage: "https://pub-2e921c3296284ee09765df90c269c521.r2.dev/drowning2.png",
-    href: "https://www.youtube.com/watch?v=tVUhPrlv_9s",
-    title: "drowning",
-  }
 ];
 
 const VisualsPage: React.FC = () => {

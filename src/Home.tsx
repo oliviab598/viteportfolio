@@ -27,8 +27,6 @@ const Home: React.FC = () => {
       "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/drowning%20help.wav",
     bandcamp:
       "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/drowning%20me.wav",
-    "nina protocol":
-      "https://pub-41de94e877a547d29501e703c23ca4fc.r2.dev/drowning%20ah.wav",
   };
 
   const handleSocialClick = (name: string) => {
@@ -230,7 +228,7 @@ const Home: React.FC = () => {
 
               incidentAudio.onended = () => {
                 window.open(
-                  "https://ffm.to/drowning_",
+                  "https://ffm.to/isitasign",
                   "_blank",
                   "noopener,noreferrer",
                 );
@@ -336,10 +334,6 @@ const Home: React.FC = () => {
               {
                 name: "bandcamp",
                 href: "https://oliviabrown2.bandcamp.com/",
-              },
-              {
-                name: "nina protocol",
-                href: "https://www.ninaprotocol.com/profiles/olivia.b.598",
               },
             ].map(({ name, href }) => (
               <a
@@ -565,10 +559,6 @@ const Home: React.FC = () => {
                   {
                     name: "bandcamp",
                     href: "https://oliviabrown2.bandcamp.com/",
-                  },
-                  {
-                    name: "nina protocol",
-                    href: "https://www.ninaprotocol.com/profiles/olivia.b.598",
                   },
                 ].map(({ name, href }) => (
                   <React.Fragment key={name}>
